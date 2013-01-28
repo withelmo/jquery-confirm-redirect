@@ -17,6 +17,11 @@
 	}, option);
 
 	return this.each(function() {
+	    // @todo イベントリスナーで取得できるかもしれない
+	    var onclick;
+	    onclick = $(this).attr('onclick');
+	    $(this).attr('onclick', '');
+
 	    var href;
 	    href = $(this).attr('href');
 	    if (href !== '#') {
@@ -42,7 +47,12 @@
 
 		// confirm
 		if (confirm(message)) {
-		    location.href = url;
+		    if (onclick) {
+			// @todo セキュリティ的に問題があるかもしれない。使う場所に注意。
+			eval(onclick)
+		    } else {
+			location.href = url;
+		    }
 		}
 		return false;
 	    });
